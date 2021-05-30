@@ -60,7 +60,7 @@ namespace Youtube3D_Simulasyon
         {
             float step = 1.0f;
             float topla = step;
-            float radius = 5.0f;
+            float radius = 4.0f;
             float dikey1 = radius, dikey2 = -radius;
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.Clear(ClearBufferMask.DepthBufferBit);
@@ -81,23 +81,30 @@ namespace Youtube3D_Simulasyon
             GL.Rotate(z, 0.0, 1.0, 0.0);
             GL.Rotate(y, 0.0, 0.0, 1.0);
 
-            silindir(step, topla, radius, 3, -5);
-            silindir(0.01f, topla, 0.5f, 9, 9.7f);
-            silindir(0.01f, topla, 0.1f, 5, dikey1 + 5);
-            koni(0.01f, 0.01f, radius, 3.0f, 3, 5);
-            koni(0.01f, 0.01f, radius, 2.0f, -5.0f, -10.0f);
-            Pervane(9.0f, 11.0f, 0.2f, 0.5f);
+            silindir(step, topla, radius, 3, -5);   
+            koni(0.01f, 0.01f, radius, 3.0f, 3, 5);//Ust koni
+            koni(0.01f, 0.01f, radius, 2.0f, -5.0f, -10.0f);//Alt koni
+            silindir(0.01f, topla, 0.07f, 9, 3);// rotor      
+            //Pervane(Yükseklik,Pervane Uzunluğu,Pervane Genişliği,Pervane açısı)
+            silindir(0.01f, topla, 0.2f, 9, 9.3f);
+            Pervane1(9.0f, 7.0f, 0.3f, 0.3f);
 
-            GL.Begin(BeginMode.Quads);
+            silindir(0.01f, topla, 0.2f, 7.3f, 7f);
+            Pervane2(7.0f, 7.0f, 0.3f, 0.3f);
+            //// ASAGIDA X, Y, Z EKSEN CİZGELERİ ÇİZDİRİLİYOR
+            GL.Begin(BeginMode.Lines);
 
             GL.Color3(Color.FromArgb(250, 0, 0));
-            GL.Vertex3(-10, 0.0, 0.0);
-            GL.Vertex3(10, 0.0, 0.0);
+            GL.Vertex3(-1000, 0, 0);
+            GL.Vertex3(1000, 0, 0);
 
+            GL.Color3(Color.FromArgb(25, 150,100 ));
+            GL.Vertex3(0, 0, -1000);
+            GL.Vertex3(0, 0, 1000);
 
             GL.Color3(Color.FromArgb(0, 0, 0));
-            GL.Vertex3(0.0, 10, 0.0);
-            GL.Vertex3(0.0, -10, 0.0);
+            GL.Vertex3(0, 1000, 0);
+            GL.Vertex3(0, -1000, 0);
 
             GL.End();
             //GraphicsContext.CurrentContext.VSync = true;
@@ -370,7 +377,7 @@ namespace Youtube3D_Simulasyon
             topla = step;
             GL.End();
         }
-        private void Pervane(float yukseklik, float uzunluk, float kalinlik, float egiklik)
+        private void Pervane1(float yukseklik, float uzunluk, float kalinlik, float egiklik)
         {
             float radius = 10, angle = 45.0f;
             GL.Begin(BeginMode.Quads);
@@ -378,14 +385,14 @@ namespace Youtube3D_Simulasyon
             GL.Color3(Color.Red);
             GL.Vertex3(uzunluk, yukseklik, kalinlik);
             GL.Vertex3(uzunluk, yukseklik + egiklik, -kalinlik);
-            GL.Vertex3(0.0, yukseklik + egiklik, -kalinlik);
-            GL.Vertex3(0.0, yukseklik, kalinlik);
+            GL.Vertex3(0, yukseklik + egiklik, -kalinlik);
+            GL.Vertex3(0, yukseklik, kalinlik);
 
             GL.Color3(Color.Red);
             GL.Vertex3(-uzunluk, yukseklik + egiklik, kalinlik);
             GL.Vertex3(-uzunluk, yukseklik, -kalinlik);
-            GL.Vertex3(0.0, yukseklik, -kalinlik);
-            GL.Vertex3(0.0, yukseklik + egiklik, kalinlik);
+            GL.Vertex3(0, yukseklik, -kalinlik);
+            GL.Vertex3(0, yukseklik + egiklik, kalinlik);
 
             GL.Color3(Color.White);
             GL.Vertex3(kalinlik, yukseklik, -uzunluk);
@@ -394,6 +401,37 @@ namespace Youtube3D_Simulasyon
             GL.Vertex3(kalinlik, yukseklik, 0.0);//-
 
             GL.Color3(Color.White);
+            GL.Vertex3(kalinlik, yukseklik + egiklik, +uzunluk);
+            GL.Vertex3(-kalinlik, yukseklik, +uzunluk);
+            GL.Vertex3(-kalinlik, yukseklik, 0.0);
+            GL.Vertex3(kalinlik, yukseklik + egiklik, 0.0);
+            GL.End();
+
+        }
+        private void Pervane2(float yukseklik, float uzunluk, float kalinlik, float egiklik)
+        {
+            float radius = 10, angle = 45.0f;
+            GL.Begin(BeginMode.Quads);
+
+            GL.Color3(Color.White);
+            GL.Vertex3(uzunluk, yukseklik, kalinlik);
+            GL.Vertex3(uzunluk, yukseklik + egiklik, -kalinlik);
+            GL.Vertex3(0, yukseklik + egiklik, -kalinlik);
+            GL.Vertex3(0, yukseklik, kalinlik);
+
+            GL.Color3(Color.White);
+            GL.Vertex3(-uzunluk, yukseklik + egiklik, kalinlik);
+            GL.Vertex3(-uzunluk, yukseklik, -kalinlik);
+            GL.Vertex3(0, yukseklik, -kalinlik);
+            GL.Vertex3(0, yukseklik + egiklik, kalinlik);
+
+            GL.Color3(Color.Red);
+            GL.Vertex3(kalinlik, yukseklik, -uzunluk);
+            GL.Vertex3(-kalinlik, yukseklik + egiklik, -uzunluk);
+            GL.Vertex3(-kalinlik, yukseklik + egiklik, 0.0);//+
+            GL.Vertex3(kalinlik, yukseklik, 0.0);//-
+
+            GL.Color3(Color.Red);
             GL.Vertex3(kalinlik, yukseklik + egiklik, +uzunluk);
             GL.Vertex3(-kalinlik, yukseklik, +uzunluk);
             GL.Vertex3(-kalinlik, yukseklik, 0.0);

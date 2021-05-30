@@ -43,3 +43,6 @@ C:\Users\Fatih Furkan Çambel\Desktop\3DSimulationWithArduino\Youtube3D_Simulasy
 C:\Users\Fatih Furkan Çambel\Desktop\3DSimulationWithArduino\Youtube3D_Simulasyon\obj\Debug\Youtube3D_Simulasyon.Form1.resources
 C:\Users\Fatih Furkan Çambel\Desktop\3DSimulationWithArduino\Youtube3D_Simulasyon\obj\Debug\Youtube3D_Simulasyon.Properties.Resources.resources
 C:\Users\Fatih Furkan Çambel\Desktop\3DSimulationWithArduino\Youtube3D_Simulasyon\obj\Debug\Youtube3D_Simulasyon.csproj.GenerateResource.Cache
+C:\Users\Fatih Furkan Çambel\Documents\github\3DSimulationWithArduino\Youtube3D_Simulasyon\bin\Debug\Youtube3D_Simulasyon.exe.config
+C:\Users\Fatih Furkan Çambel\Documents\github\3DSimulationWithArduino\Youtube3D_Simulasyon\obj\Debug\Youtube3D_Simulasyon.exe
+C:\Users\Fatih Furkan Çambel\Documents\github\3DSimulationWithArduino\Youtube3D_Simulasyon\obj\Debug\Youtube3D_Simulasyon.pdb
