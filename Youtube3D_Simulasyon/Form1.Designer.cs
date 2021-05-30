@@ -51,6 +51,8 @@
             this.lblxx = new System.Windows.Forms.Label();
             this.lblyy = new System.Windows.Forms.Label();
             this.lblzz = new System.Windows.Forms.Label();
+            this.btnColor = new System.Windows.Forms.Button();
+            this.btnColor2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // glControl1
@@ -237,11 +239,33 @@
             this.lblzz.TabIndex = 16;
             this.lblzz.Text = "label8";
             // 
+            // btnColor
+            // 
+            this.btnColor.Location = new System.Drawing.Point(840, 110);
+            this.btnColor.Name = "btnColor";
+            this.btnColor.Size = new System.Drawing.Size(67, 31);
+            this.btnColor.TabIndex = 17;
+            this.btnColor.Text = "Renk1";
+            this.btnColor.UseVisualStyleBackColor = true;
+            this.btnColor.Click += new System.EventHandler(this.btnColor_Click);
+            // 
+            // btnColor2
+            // 
+            this.btnColor2.Location = new System.Drawing.Point(839, 147);
+            this.btnColor2.Name = "btnColor2";
+            this.btnColor2.Size = new System.Drawing.Size(68, 30);
+            this.btnColor2.TabIndex = 18;
+            this.btnColor2.Text = "Renk2";
+            this.btnColor2.UseVisualStyleBackColor = true;
+            this.btnColor2.Click += new System.EventHandler(this.btnColor2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1126, 663);
+            this.Controls.Add(this.btnColor2);
+            this.Controls.Add(this.btnColor);
             this.Controls.Add(this.lblzz);
             this.Controls.Add(this.lblyy);
             this.Controls.Add(this.lblxx);
@@ -295,6 +319,8 @@
         private System.Windows.Forms.Label lblxx;
         private System.Windows.Forms.Label lblyy;
         private System.Windows.Forms.Label lblzz;
+        private System.Windows.Forms.Button btnColor;
+        private System.Windows.Forms.Button btnColor2;
     }
 }
 

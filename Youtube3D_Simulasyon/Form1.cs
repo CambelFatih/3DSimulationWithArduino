@@ -11,6 +11,7 @@ namespace Youtube3D_Simulasyon
     {
         int x = 0, y = 0, z = 0;
         bool cx=false, cy=false, cz = false;
+        Color renk1 = Color.White, renk2 = Color.Red;
         public Form1()
         {
             InitializeComponent();
@@ -58,11 +59,10 @@ namespace Youtube3D_Simulasyon
 
         private void glControl1_Paint(object sender, PaintEventArgs e)
         {
-            float step = 1.0f;
-            float topla = step;
-            float radius = 4.0f;
-            float dikey1 = radius, dikey2 = -radius;
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            float step = 1.0f;//Adım genişliği çözünürlük
+            float topla = step;//Tanpon 
+            float radius = 4.0f;//Yarıçağ Modle Uydunun
+            GL.Clear(ClearBufferMask.ColorBufferBit);//Buffer temizlenmez ise görüntüler üst üste bine o yüzden temizliyoruz.
             GL.Clear(ClearBufferMask.DepthBufferBit);
 
             Matrix4 perspective = Matrix4.CreatePerspectiveFieldOfView(1.04f, 4 / 3, 1, 10000);
@@ -77,21 +77,23 @@ namespace Youtube3D_Simulasyon
             GL.Enable(EnableCap.DepthTest);
             GL.DepthFunc(DepthFunction.Less);
 
-            GL.Rotate(x, 1.0, 0.0, 0.0);//ÖNEMLİ
+            //Asagidaki fonksiyonlar ile nesneyi hareket ettirmemizi sağlıyor.
+            GL.Rotate(x, 1.0, 0.0, 0.0);
             GL.Rotate(z, 0.0, 1.0, 0.0);
             GL.Rotate(y, 0.0, 0.0, 1.0);
-
+            
+            //Çizim Fonksiyonları
             silindir(step, topla, radius, 3, -5);   
             koni(0.01f, 0.01f, radius, 3.0f, 3, 5);//Ust koni
             koni(0.01f, 0.01f, radius, 2.0f, -5.0f, -10.0f);//Alt koni
             silindir(0.01f, topla, 0.07f, 9, 3);// rotor      
             //Pervane(Yükseklik,Pervane Uzunluğu,Pervane Genişliği,Pervane açısı)
             silindir(0.01f, topla, 0.2f, 9, 9.3f);
-            Pervane1(9.0f, 7.0f, 0.3f, 0.3f);
+            Pervane(9.0f, 7.0f, 0.3f, 0.3f);
 
             silindir(0.01f, topla, 0.2f, 7.3f, 7f);
-            Pervane2(7.0f, 7.0f, 0.3f, 0.3f);
-            //// ASAGIDA X, Y, Z EKSEN CİZGELERİ ÇİZDİRİLİYOR
+            Pervane(7.0f, 7.0f, 0.3f, 0.3f);
+            //// AŞAĞIDA X, Y, Z EKSEN CİZGELERİ ÇİZDİRİLİYOR
             GL.Begin(BeginMode.Lines);
 
             GL.Color3(Color.FromArgb(250, 0, 0));
@@ -191,10 +193,51 @@ namespace Youtube3D_Simulasyon
 
             }
         }
+
+        private void btnColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog colorPicker = new ColorDialog();
+            if (colorPicker.ShowDialog() == DialogResult.OK)
+            {
+                renk1 = colorPicker.Color;
+            }
+            glControl1.Invalidate();
+        }
+
+        private void btnColor2_Click(object sender, EventArgs e)
+        {
+            ColorDialog colorPicker = new ColorDialog();
+            if (colorPicker.ShowDialog() == DialogResult.OK)
+            {
+                renk2 = colorPicker.Color;
+            }
+            glControl1.Invalidate();
+        }
+
         private void glControl1_Load(object sender, EventArgs e)
         {
             GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             GL.Enable(EnableCap.DepthTest);//sonradan yazdık
+        }
+
+        private void renk_ataması(float step)
+        {
+            if (step < 45)
+                GL.Color3(renk2);
+            else if (step < 90)
+                GL.Color3(renk1);
+            else if (step < 135)
+                GL.Color3(renk2);
+            else if (step < 180)
+                GL.Color3(renk1);
+            else if (step < 225)
+                GL.Color3(renk2);
+            else if (step < 270)
+                GL.Color3(renk1);
+            else if (step < 315)
+                GL.Color3(renk2);
+            else if (step < 360)
+                GL.Color3(renk1);
         }
         private void silindir(float step, float topla, float radius, float dikey1, float dikey2)
         {
@@ -202,24 +245,7 @@ namespace Youtube3D_Simulasyon
             GL.Begin(BeginMode.Quads);//Y EKSEN CIZIM DAİRENİN
             while (step <= 360)
             {
-                if (step < 45)
-                    GL.Color3(Color.FromArgb(255, 0, 0));
-                else if (step < 90)
-                    GL.Color3(Color.FromArgb(255, 255, 255));
-                else if (step < 135)
-                    GL.Color3(Color.FromArgb(255, 0, 0));
-                else if (step < 180)
-                    GL.Color3(Color.FromArgb(255, 255, 255));
-                else if (step < 225)
-                    GL.Color3(Color.FromArgb(255, 0, 0));
-                else if (step < 270)
-                    GL.Color3(Color.FromArgb(255, 255, 255));
-                else if (step < 315)
-                    GL.Color3(Color.FromArgb(255, 0, 0));
-                else if (step < 360)
-                    GL.Color3(Color.FromArgb(255, 255, 255));
-
-
+                renk_ataması(step);
                 float ciz1_x = (float)(radius * Math.Cos(step * Math.PI / 180F));
                 float ciz1_y = (float)(radius * Math.Sin(step * Math.PI / 180F));
                 GL.Vertex3(ciz1_x, dikey1, ciz1_y);
@@ -238,24 +264,7 @@ namespace Youtube3D_Simulasyon
             topla = step;
             while (step <= 180)// UST KAPAK
             {
-                if (step < 45)
-                    GL.Color3(Color.FromArgb(255, 1, 1));
-                else if (step < 90)
-                    GL.Color3(Color.FromArgb(250, 250, 200));
-                else if (step < 135)
-                    GL.Color3(Color.FromArgb(255, 1, 1));
-                else if (step < 180)
-                    GL.Color3(Color.FromArgb(250, 250, 200));
-                else if (step < 225)
-                    GL.Color3(Color.FromArgb(255, 1, 1));
-                else if (step < 270)
-                    GL.Color3(Color.FromArgb(250, 250, 200));
-                else if (step < 315)
-                    GL.Color3(Color.FromArgb(255, 1, 1));
-                else if (step < 360)
-                    GL.Color3(Color.FromArgb(250, 250, 200));
-
-
+                renk_ataması(step);
                 float ciz1_x = (float)(radius * Math.Cos(step * Math.PI / 180F));
                 float ciz1_y = (float)(radius * Math.Sin(step * Math.PI / 180F));
                 GL.Vertex3(ciz1_x, dikey1, ciz1_y);
@@ -272,22 +281,7 @@ namespace Youtube3D_Simulasyon
             topla = step;
             while (step <= 180)//ALT KAPAK
             {
-                if (step < 45)
-                    GL.Color3(Color.FromArgb(255, 1, 1));
-                else if (step < 90)
-                    GL.Color3(Color.FromArgb(250, 250, 200));
-                else if (step < 135)
-                    GL.Color3(Color.FromArgb(255, 1, 1));
-                else if (step < 180)
-                    GL.Color3(Color.FromArgb(250, 250, 200));
-                else if (step < 225)
-                    GL.Color3(Color.FromArgb(255, 1, 1));
-                else if (step < 270)
-                    GL.Color3(Color.FromArgb(250, 250, 200));
-                else if (step < 315)
-                    GL.Color3(Color.FromArgb(255, 1, 1));
-                else if (step < 360)
-                    GL.Color3(Color.FromArgb(250, 250, 200));
+                renk_ataması(step);
 
                 float ciz1_x = (float)(radius * Math.Cos(step * Math.PI / 180F));
                 float ciz1_y = (float)(radius * Math.Sin(step * Math.PI / 180F));
@@ -309,24 +303,7 @@ namespace Youtube3D_Simulasyon
             GL.Begin(BeginMode.Lines);//Y EKSEN CIZIM DAİRENİN
             while (step <= 360)
             {
-                if (step < 45)
-                    GL.Color3(1.0, 1.0, 1.0);
-                else if (step < 90)
-                    GL.Color3(1.0, 0.0, 0.0);
-                else if (step < 135)
-                    GL.Color3(1.0, 1.0, 1.0);
-                else if (step < 180)
-                    GL.Color3(1.0, 0.0, 0.0);
-                else if (step < 225)
-                    GL.Color3(1.0, 1.0, 1.0);
-                else if (step < 270)
-                    GL.Color3(1.0, 0.0, 0.0);
-                else if (step < 315)
-                    GL.Color3(1.0, 1.0, 1.0);
-                else if (step < 360)
-                    GL.Color3(1.0, 0.0, 0.0);
-
-
+                renk_ataması(step);
                 float ciz1_x = (float)(radius1 * Math.Cos(step * Math.PI / 180F));
                 float ciz1_y = (float)(radius1 * Math.Sin(step * Math.PI / 180F));
                 GL.Vertex3(ciz1_x, dikey1, ciz1_y);
@@ -343,24 +320,7 @@ namespace Youtube3D_Simulasyon
             topla = step;
             while (step <= 180)// UST KAPAK
             {
-                if (step < 45)
-                    GL.Color3(Color.FromArgb(255, 1, 1));
-                else if (step < 90)
-                    GL.Color3(Color.FromArgb(250, 250, 200));
-                else if (step < 135)
-                    GL.Color3(Color.FromArgb(255, 1, 1));
-                else if (step < 180)
-                    GL.Color3(Color.FromArgb(250, 250, 200));
-                else if (step < 225)
-                    GL.Color3(Color.FromArgb(255, 1, 1));
-                else if (step < 270)
-                    GL.Color3(Color.FromArgb(250, 250, 200));
-                else if (step < 315)
-                    GL.Color3(Color.FromArgb(255, 1, 1));
-                else if (step < 360)
-                    GL.Color3(Color.FromArgb(250, 250, 200));
-
-
+                renk_ataması(step);
                 float ciz1_x = (float)(radius2 * Math.Cos(step * Math.PI / 180F));
                 float ciz1_y = (float)(radius2 * Math.Sin(step * Math.PI / 180F));
                 GL.Vertex3(ciz1_x, dikey2, ciz1_y);
@@ -377,61 +337,30 @@ namespace Youtube3D_Simulasyon
             topla = step;
             GL.End();
         }
-        private void Pervane1(float yukseklik, float uzunluk, float kalinlik, float egiklik)
+        private void Pervane(float yukseklik, float uzunluk, float kalinlik, float egiklik)
         {
             float radius = 10, angle = 45.0f;
             GL.Begin(BeginMode.Quads);
 
-            GL.Color3(Color.Red);
+            GL.Color3(renk2);
             GL.Vertex3(uzunluk, yukseklik, kalinlik);
             GL.Vertex3(uzunluk, yukseklik + egiklik, -kalinlik);
             GL.Vertex3(0, yukseklik + egiklik, -kalinlik);
             GL.Vertex3(0, yukseklik, kalinlik);
 
-            GL.Color3(Color.Red);
+            GL.Color3(renk2);
             GL.Vertex3(-uzunluk, yukseklik + egiklik, kalinlik);
             GL.Vertex3(-uzunluk, yukseklik, -kalinlik);
             GL.Vertex3(0, yukseklik, -kalinlik);
             GL.Vertex3(0, yukseklik + egiklik, kalinlik);
 
-            GL.Color3(Color.White);
+            GL.Color3(renk1);
             GL.Vertex3(kalinlik, yukseklik, -uzunluk);
             GL.Vertex3(-kalinlik, yukseklik + egiklik, -uzunluk);
             GL.Vertex3(-kalinlik, yukseklik + egiklik, 0.0);//+
             GL.Vertex3(kalinlik, yukseklik, 0.0);//-
 
-            GL.Color3(Color.White);
-            GL.Vertex3(kalinlik, yukseklik + egiklik, +uzunluk);
-            GL.Vertex3(-kalinlik, yukseklik, +uzunluk);
-            GL.Vertex3(-kalinlik, yukseklik, 0.0);
-            GL.Vertex3(kalinlik, yukseklik + egiklik, 0.0);
-            GL.End();
-
-        }
-        private void Pervane2(float yukseklik, float uzunluk, float kalinlik, float egiklik)
-        {
-            float radius = 10, angle = 45.0f;
-            GL.Begin(BeginMode.Quads);
-
-            GL.Color3(Color.White);
-            GL.Vertex3(uzunluk, yukseklik, kalinlik);
-            GL.Vertex3(uzunluk, yukseklik + egiklik, -kalinlik);
-            GL.Vertex3(0, yukseklik + egiklik, -kalinlik);
-            GL.Vertex3(0, yukseklik, kalinlik);
-
-            GL.Color3(Color.White);
-            GL.Vertex3(-uzunluk, yukseklik + egiklik, kalinlik);
-            GL.Vertex3(-uzunluk, yukseklik, -kalinlik);
-            GL.Vertex3(0, yukseklik, -kalinlik);
-            GL.Vertex3(0, yukseklik + egiklik, kalinlik);
-
-            GL.Color3(Color.Red);
-            GL.Vertex3(kalinlik, yukseklik, -uzunluk);
-            GL.Vertex3(-kalinlik, yukseklik + egiklik, -uzunluk);
-            GL.Vertex3(-kalinlik, yukseklik + egiklik, 0.0);//+
-            GL.Vertex3(kalinlik, yukseklik, 0.0);//-
-
-            GL.Color3(Color.Red);
+            GL.Color3(renk1);
             GL.Vertex3(kalinlik, yukseklik + egiklik, +uzunluk);
             GL.Vertex3(-kalinlik, yukseklik, +uzunluk);
             GL.Vertex3(-kalinlik, yukseklik, 0.0);
